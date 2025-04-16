@@ -11,14 +11,14 @@ en?=1
 VE:=$(if $(ve),$(ve),$(if $(en),en,cn))
 VD:=$(if $(vd),$(vd),$(if $(dbg),1,0))
 VX:=$(if $(vx),-x,)
+# VQ:=@
+ifeq (-x,$(VX))
 VQ:=
-ifeq (,$(VX))
-VQ:=@
 VD:=1
 endif
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 V2S+=SW_CALBYMK=1
-V2S+=SW_NODEBUG=$(VD)
+V2S+=SW_DBGTHIZ=$(VD)
 V2S+=SW_THZLANG=$(VE)
 V2S+=SW_USEMIRR=$(if $(vm),1,0)
 

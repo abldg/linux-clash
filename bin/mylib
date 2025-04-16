@@ -29,7 +29,7 @@
 } 2>/dev/null
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 mt_thzstep() {
-  [ X1 = X${SW_NODEBUG:-0} ] && return
+  [ X0 = X${SW_DBGTHIZ:-0} ] && return
   ##arg1: message-to-tip-out, [optional]
   {
     local ci=($(caller 0))
