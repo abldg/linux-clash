@@ -8,7 +8,7 @@
 ##==================================----------==================================
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-dfn_enable_proxy() {
+dfn_enable() {
   mt_thzstep
   mt_update_files
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,7 +35,7 @@ dfn_enable_proxy() {
   dfn_infoproj
 }
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-dfn_disable_proxy() {
+dfn_disable() {
   mt_thzstep
   local bn=c4l
   set -- $(pidof ${bn})
@@ -75,14 +75,14 @@ dfn_infoproj() {
     infoary+="# This a totally FREE project, !!! DO NOT PAY TO ANYBODY !!!\n"
     infoary+="# repo-url: ${CGRN}https://${rpurl}.com/${rpnme}${1}\n"
     infoary+="# load the system-wide envs: ${CYAN}source ${srcname}${1}\n"
-    infoary+="# turn on the system-proxy : ${CBLU}enable_proxy${1}\n"
-    infoary+="# turn off the system-proxy: ${CBLU}disable_proxy${1}\n"
+    infoary+="# turn on the system-proxy : ${CBLU}proxy_enable${1}\n"
+    infoary+="# turn off the system-proxy: ${CBLU}proxy_disable${1}\n"
     infoary+="#${2}${2}${2}${2}${2}\n"
     printf "${1}${infoary}${CEND}"
   } 2>/dev/null
 }
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-if [ X1 = X$CBYMK ] && [ -d bin ]; then
+if [ X1 = X$SW_CALBYMK ] && [ -d bin ] && [ -d doc ]; then
   {
     FENV=.env
     [ -e bin/c4l ] || (

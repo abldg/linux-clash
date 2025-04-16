@@ -29,7 +29,7 @@
 } 2>/dev/null
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 mt_thzstep() {
-  [ X0 = X${SW_DODEBUG:-0} ] && return
+  [ X1 = X${SW_NODEBUG:-0} ] && return
   ##arg1: message-to-tip-out, [optional]
   {
     local ci=($(caller 0))
@@ -126,7 +126,7 @@ mt_update_files() {
   if [ ! -e $1 ]; then
     {
       echo '# 开启系统代理'
-      echo 'enable_proxy() {'
+      echo 'proxy_enable() {'
       echo '  export http_proxy=http://127.0.0.1:7890'
       echo '  export https_proxy=http://127.0.0.1:7890'
       echo '  export no_proxy=127.0.0.1,localhost'
@@ -137,7 +137,7 @@ mt_update_files() {
       echo '}'
       echo '##'
       echo '# 关闭系统代理'
-      echo 'disable_proxy() {'
+      echo 'proxy_disable() {'
       echo '  unset -v http_proxy https_proxy no_proxy'
       echo '  unset -v HTTP_PROXY HTTPS_PROXY NO_PROXY'
       echo '  printf "\033[31m[×] 已关闭代理\033[0m\n"'

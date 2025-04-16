@@ -1,27 +1,28 @@
-[TOC]
-
-<br>
-
-If you enjoy this project, please give it a star!  
-
-
----
-<div align="left">
-  <!-- <a href="https://clash-for-linux-server.github.io">Website</a> • -->
-  <a href="./README_zh.md">简体中文</a>
-</div>
+<!-- references -->
+[1]: #va
+[2]: LICENSE
+[3]: .env
+[4]: doc/startup_en.png
 
 # Project Introduction
 
-This project utilizes the open-source tool [ClashPermium]() as its core program, combined with custom scripts to implement a simple proxy solution.
+<div align="left">
+  <!-- <a href="https://clash-for-linux-server.github.io">Website</a> • -->
+  <a href="./README_zh.md">简体中文</a>
+  <a href="#"> If you enjoy this project, please give it a star! </a>
+</div>
 
-The primary purpose of this project is to address the slow download speeds for GitHub and other overseas resources on servers.
+<br>
 
----
+This project utilizes the open-source tool [ClashPermium][1] as its core program, combined with custom scripts to implement a simple proxy solution.
+
+The primary purpose of this project is to address the slow download speeds for GitHub and other overseas resources on [SERVERs][1].
+
+<br>
 
 # Disclaimer
 
-1. This project is licensed under the GNU General Public License (GPL) v3.0. Please review the LICENSE file in this repository for details.
+1. This project is licensed under the GNU General Public License (GPL) v3.0. Please review the [LICENSE][2] file in this repository for details.
 
 2. The original authors of this project retain all intellectual property rights. Users must comply with the requirements of the GPL v3.0 and bear all risks associated with using this project.
 
@@ -31,26 +32,27 @@ The primary purpose of this project is to address the slow download speeds for G
 
 5. Users must adhere to the laws and regulations of their own country and resolve any legal or regulatory issues arising from the use of this project on their own.
 
----
+<br>
 
 # Usage Notes
 
-- It is recommended to run this project as the [root]() user or with [`sudo`]() privileges.
+- It is recommended to run this project as the [root][1] user or with [sudo][1] privileges.
 - When submitting an issue, ensure that sensitive information (e.g., subscription URLs) is removed or replaced.
 - The Dashboard is from [YACD](https://github.com/haishanh/yacd). For detailed configurations, please refer to the original projects.
 - This project does not provide any subscription information. You must prepare your own Clash subscription URL.
-- Before running, manually modify the `C4L_LNKURL` variable in the `.env` file, or the program will not work correctly.
+- Before running, manually modify the `C4L_LNKURL` variable in the [.env][3] file, or the program will not work correctly.
 - Tested on RHEL series, Debian, Kali Linux, Ubuntu, and other Linux systems. Other distributions may require minor script modifications.
 - Supports x86_64 and aarch64 platforms.
-- [Note:]()
+- [Note][1] :
   - For some Linux desktop systems, you may need to set the proxy in your browser for proper usage.
   - If the system proxy doesn't work, but you need it, try modifying the port and reloading the environment variables.
   - If issues persist, consider changing your network environment (this may also be a factor).
   - On some Linux systems, sites like Google, Twitter, or YouTube may not respond to ping requests—this is normal.
-- [References:]()
+- [References][1] :
   - Lookup for what about Clash: <https://clash.wiki>
   - Download other platform clash4linux from: <https://downloads.clash.wiki/ClashPremium>
----
+
+<br>
 
 # Usage Guide
 
@@ -90,12 +92,12 @@ make uptenv < LNKURL=URLs > [SECRET=UI_PASWD]
 - Navigate to the project directory:
 
 ```bash
-$ cd /opt/clash4linux && make enable_proxy
+$ cd /opt/clash4linux && make proxy_enable
 ```
 
 - The Startup Output likes:
 
-![](doc/startup_en.png)
+![][4]
 
 - Check service ports:
 
@@ -117,11 +119,11 @@ https_proxy=http://127.0.0.1:7890
 
 If the above steps are successful, the Clash program is running, and you can now experience faster downloads for GitHub resources.
 
-- load `enable_proxy` and `disable_proxy`
+- load `proxy_enable` and `proxy_disable`
 
 ```bash
 $ source /etc/profile.d/z99_clash4linux.sh
-$ enable_proxy
+$ proxy_enable
 ```
 
 ---
@@ -131,13 +133,13 @@ $ enable_proxy
 - Navigate to the project directory:
 
 ```bash
-cd /opt/clash4linux && make disable_proxy
+cd /opt/clash4linux && make proxy_disable
 ```
 
 Stop the system proxy:
 
 ```bash
-$ disable_proxy
+$ proxy_disable
 ```
 
 Verify that the program's ports, processes, and environment variables (`http_proxy|https_proxy`) are no longer active. If none are active, the service has successfully stopped.

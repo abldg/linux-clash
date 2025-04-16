@@ -5,6 +5,7 @@
 log/
 .lastrun
 bin/*
+!bin/my*
 etc/*.yaml
 .env
 doc/ui
