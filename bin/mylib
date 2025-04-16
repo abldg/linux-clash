@@ -105,7 +105,7 @@ mt_update_files() {
     GPROMPTS+=(
       ###
       [cn, ucfg_notneedupt]="配置文件 ${CGRN}${1}${CBLU} 无需更新"
-      [en, ucfg_notneedupt]="config ${CGRN}${1}${CBLU} already lastest, skip!!!"
+      [en, ucfg_notneedupt]="config ${CGRN}${1}${CBLU} already lastest, skip update"
       ###
       [cn, ucfg_doneupdate]="从订阅链接更新配置文件 ${CPLP}${1}"
       [en, ucfg_doneupdate]="update config ${CPLP}${1}${CYAN} from subscription link"

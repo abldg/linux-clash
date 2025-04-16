@@ -9,6 +9,7 @@
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 dfn_enable_proxy() {
+  mt_thzstep
   mt_update_files
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   local bn=c4l
@@ -22,7 +23,7 @@ dfn_enable_proxy() {
     -ext-ui $3/doc/ui
     -secret "$1"
   )
-  echo "${expary[*]}" >.lastrun && mt_thzstep
+  echo "${expary[*]}" >.lastrun
   (exec ${expary[@]} &>$2 &)
   tipary=(
     "[${CGRN}OK${CEND}] ${bn}[${CGRN}running${CEND}],"
@@ -48,7 +49,7 @@ dfn_disable_proxy() {
 dfn_uptenv() {
   mt_thzstep
   if [ X0 = X${#NEW_LNKURL} ]; then
-    NEW_LNKURL=$(. $1 && echo ${C4L_LNKURL})
+    NEW_LNKURL=$(. $FENV && echo ${C4L_LNKURL})
   fi 2>/dev/null
   set -- ${NEW_SECRET:-$(mt_genpswd 8 2>/dev/null)} ${NEW_LNKURL}
   mt_update_envfile $@
@@ -56,6 +57,7 @@ dfn_uptenv() {
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 dfn_help() {
+  # mt_thzstep
   printf '##Usage: make target [options]\n\n'
   printf 'STEP-0. update envfile\n$  make uptenv url=NEW-LINK [pswd=NEW-PSWD]\n\n'
   printf 'STEP-1. start proxy service\n$  make proxy_on\n\n'
@@ -63,6 +65,7 @@ dfn_help() {
 }
 
 dfn_infoproj() {
+  # mt_thzstep
   {
     set -- "${CYLW}" '==============='
     local rpurl=github rpnme=abldg/clash-for-linux-server.git
@@ -72,8 +75,8 @@ dfn_infoproj() {
     infoary+="# This a totally FREE project, !!! DO NOT PAY TO ANYBODY !!!\n"
     infoary+="# repo-url: ${CGRN}https://${rpurl}.com/${rpnme}${1}\n"
     infoary+="# load the system-wide envs: ${CYAN}source ${srcname}${1}\n"
-    infoary+="# turn on the system-proxy : ${CBLU}proxy_on${1}\n"
-    infoary+="# turn off the system-proxy: ${CBLU}proxy_off${1}\n"
+    infoary+="# turn on the system-proxy : ${CBLU}enable_proxy${1}\n"
+    infoary+="# turn off the system-proxy: ${CBLU}disable_proxy${1}\n"
     infoary+="#${2}${2}${2}${2}${2}\n"
     printf "${1}${infoary}${CEND}"
   } 2>/dev/null
@@ -81,13 +84,14 @@ dfn_infoproj() {
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 if [ X1 = X$CBYMK ] && [ -d bin ]; then
   {
+    FENV=.env
     [ -e bin/c4l ] || (
       tar -xf doc/mybak.tgz && cd bin &&
         mv c4l.$(arch) xxx && rm -f c4l.* && mv xxx c4l
     )
-    [ -e .env ] || cp doc/sample.env .env
+    [ -e $FENV ] || cp doc/sample.env $FENV
     [ -d etc ] || mkdir etc
-    for x in bin/mylib .env; do . $x; done && unset -v x
+    for x in bin/mylib $FENV; do . $x; done && unset -v x
   } 2>/dev/null
   ###
   mt_thzstep "${CYLW}TASK::${CBLU}${ACTKW}"

@@ -5,7 +5,7 @@ only_for_run_on_amd64_or_arm64_machine:
 endif
 endif
 ###------------------------------BGN--------------------------------------------
-#en?=1
+en?=1
 #dbg?=1
 ##
 VE:=$(if $(en),en,cn)
