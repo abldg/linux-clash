@@ -1,0 +1,10 @@
+.old/
+*.log
+*.*db
+*.db
+log/
+.lastrun
+bin/*
+etc/*.yaml
+.env
+doc/ui

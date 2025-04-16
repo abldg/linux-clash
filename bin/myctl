@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+## coding=utf-8
+##==================================----------==================================
+## FILE: myctl
+## MYPG: abldg, https://github.com/abldg
+## LSCT: 2025-04-15 10:16:53
+## VERS: 0.7
+##==================================----------==================================
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+dfn_enable_proxy() {
+  mt_update_files
+  ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  local bn=c4l
+  pidof ${bn} | xargs kill -9 2>/dev/null
+  local expary= tipary=
+  set -- ${C4L_SECRET:-$(mt_genpswd 8 2>/dev/null)} c4l.log $PWD
+  expary=(
+    $3/bin/${bn}
+    -d $3/etc
+    -f $3/etc/c4l.yaml
+    -ext-ui $3/doc/ui
+    -secret "$1"
+  )
+  echo "${expary[*]}" >.lastrun && mt_thzstep
+  (exec ${expary[@]} &>$2 &)
+  tipary=(
+    "[${CGRN}OK${CEND}] ${bn}[${CGRN}running${CEND}],"
+    "secret[${CPLP}${1}${CEND}],"
+    "pid[${CBLU}$(pidof ${bn})${CEND}],"
+    "log[${CYLW}$2${CEND}]"
+  ) && printf "${tipary[*]}\n"
+  ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  dfn_infoproj
+}
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+dfn_disable_proxy() {
+  mt_thzstep
+  local bn=c4l
+  set -- $(pidof ${bn})
+  if [ $# -ge 1 ]; then
+    _blue "stop running ${bn}: [${CYAN}$@${CBLU}]"
+    { pidof ${bn} | xargs kill -9; } 2>/dev/null
+  fi
+}
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+dfn_uptenv() {
+  mt_thzstep
+  if [ X0 = X${#NEW_LNKURL} ]; then
+    NEW_LNKURL=$(. $1 && echo ${C4L_LNKURL})
+  fi 2>/dev/null
+  set -- ${NEW_SECRET:-$(mt_genpswd 8 2>/dev/null)} ${NEW_LNKURL}
+  mt_update_envfile $@
+}
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+dfn_help() {
+  printf '##Usage: make target [options]\n\n'
+  printf 'STEP-0. update envfile\n$  make uptenv url=NEW-LINK [pswd=NEW-PSWD]\n\n'
+  printf 'STEP-1. start proxy service\n$  make proxy_on\n\n'
+  printf 'STEP-2. stop proxy service\n$  make proxy_off\n\n'
+}
+
+dfn_infoproj() {
+  {
+    set -- "${CYLW}" '==============='
+    local rpurl=github rpnme=abldg/clash-for-linux-server.git
+    [ X1 = X${SW_USEMIRR:-0} ] && rpurl=gitee
+    local srcname=/etc/profile.d/z99_clash4linux.sh
+    local infoary="#${2}${2}${2}${2}${2}\n"
+    infoary+="# This a totally FREE project, !!! DO NOT PAY TO ANYBODY !!!\n"
+    infoary+="# repo-url: ${CGRN}https://${rpurl}.com/${rpnme}${1}\n"
+    infoary+="# load the system-wide envs: ${CYAN}source ${srcname}${1}\n"
+    infoary+="# turn on the system-proxy : ${CBLU}proxy_on${1}\n"
+    infoary+="# turn off the system-proxy: ${CBLU}proxy_off${1}\n"
+    infoary+="#${2}${2}${2}${2}${2}\n"
+    printf "${1}${infoary}${CEND}"
+  } 2>/dev/null
+}
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if [ X1 = X$CBYMK ] && [ -d bin ]; then
+  {
+    [ -e bin/c4l ] || (
+      tar -xf doc/mybak.tgz && cd bin &&
+        mv c4l.$(arch) xxx && rm -f c4l.* && mv xxx c4l
+    )
+    [ -e .env ] || cp doc/sample.env .env
+    [ -d etc ] || mkdir etc
+    for x in bin/mylib .env; do . $x; done && unset -v x
+  } 2>/dev/null
+  ###
+  mt_thzstep "${CYLW}TASK::${CBLU}${ACTKW}"
+  eval "dfn_${ACTKW} || :"
+fi
+
+exit 0
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
