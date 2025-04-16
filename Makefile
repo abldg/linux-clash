@@ -8,8 +8,8 @@ endif
 en?=1
 #dbg?=1
 ##
-VE:=$(if $(ve),en,$(if $(en),en,cn))
-VD:=$(if $(vd),1,$(if $(dbg),1,0))
+VE:=$(if $(ve),$(ve),$(if $(en),en,cn))
+VD:=$(if $(vd),$(vd),$(if $(dbg),1,0))
 VX:=$(if $(vx),-x,)
 VQ:=
 ifeq (,$(VX))
