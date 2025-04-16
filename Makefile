@@ -11,7 +11,7 @@ en?=1
 VE:=$(if $(ve),$(ve),$(if $(en),en,cn))
 VD:=$(if $(vd),$(vd),$(if $(dbg),1,0))
 VX:=$(if $(vx),-x,)
-# VQ:=@
+VQ:=@
 ifeq (-x,$(VX))
 VQ:=
 VD:=1
