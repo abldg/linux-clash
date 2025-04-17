@@ -29,8 +29,8 @@ OPERLST+=proxy/disable
 ##
 yy:=uptenv
 OPERLST+=$(yy)
-egs_$(yy)+=NEW_LNKURL='$(if $(LNKURL),$(LNKURL),$(if $(vu),$(vu),))'
-egs_$(yy)+=NEW_SECRET='$(if $(SECRET),$(SECRET),$(if $(vp),$(vp),))'
+egs_$(yy)+=NEW_LNKURL='$(if $(LNKURL),$(LNKURL),$(if $(u),$(u),))'
+egs_$(yy)+=NEW_SECRET='$(if $(SECRET),$(SECRET),$(if $(p),$(p),))'
 
 ##
 OPERLST+=help
