@@ -18,12 +18,15 @@
   export CYAN='\e[36;1m'
   export CEND='\e[0m'
   export PFX4SUB='@----> '
-  _red() { { CLR=red xf_tiprint $@ && exit 1; } 2>/dev/null; }
-  _blue() { { CLR=blue xf_tiprint $@; } 2>/dev/null; }
-  _cyan() { { CLR=cyan xf_tiprint $@; } 2>/dev/null; }
-  _green() { { CLR=green xf_tiprint $@; } 2>/dev/null; }
-  _purple() { { CLR=purple xf_tiprint $@; } 2>/dev/null; }
-  _yellow() { { CLR=yellow xf_tiprint $@; } 2>/dev/null; }
+  for x in red blue cyan green purple yellow; do
+    eval "_${x}(){ { CLR=${x} xf_tiprint \${@}; } 2>/dev/null; }"
+  done && unset -v x
+  # _red() { { CLR=red xf_tiprint; } 2>/dev/null; }
+  # _blue() { { CLR=blue xf_tiprint $@; } 2>/dev/null; }
+  # _cyan() { { CLR=cyan xf_tiprint $@; } 2>/dev/null; }
+  # _green() { { CLR=green xf_tiprint $@; } 2>/dev/null; }
+  # _purple() { { CLR=purple xf_tiprint $@; } 2>/dev/null; }
+  # _yellow() { { CLR=yellow xf_tiprint $@; } 2>/dev/null; }
   ##
   declare -gA GPROMPTS=()
 } 2>/dev/null
@@ -63,20 +66,20 @@ mt_update_envfile() {
     set -- .env $@
     GPROMPTS+=(
       ###
-      [cn, slu_must_notempty]="[FATAL] 订阅链接不能为空!!!"
-      [en, slu_must_notempty]="[FATAL] subscription link url must not empty !!!"
+      [cn_slu_must_notempty]="[FATAL] 订阅链接不能为空!!!"
+      [en_slu_must_notempty]="[FATAL] subscription link url must not empty !!!"
       ###
-      [cn, slu_needavalidurl]="[FATAL] 合法的订阅链接以http开头!!!"
-      [en, slu_needavalidurl]="[FATAL] a valid subscription link url begins with http !!!"
+      [cn_slu_needavalidurl]="[FATAL] 合法的订阅链接以http开头!!!"
+      [en_slu_needavalidurl]="[FATAL] a valid subscription link url begins with http !!!"
       ###
-      [cn, slu_start_update]="开始更新 ${CBLU}${1}${CYAN} ..."
-      [en, slu_start_update]="begin to update ${CBLU}${1}${CYAN}..."
+      [cn_slu_start_update]="开始更新 ${CBLU}${1}${CYAN} ..."
+      [en_slu_start_update]="begin to update ${CBLU}${1}${CYAN}..."
       ###
-      [cn, slu_show_secret]="访问密码即将更新${2:+为 [${CRED}${2}${CGRN}]}"
-      [en, slu_show_secret]="update password of webpages to${2:+ [${CRED}${2}${CGRN}]}"
+      [cn_slu_show_secret]="访问密码即将更新${2:+为 [${CRED}${2}${CGRN}]}"
+      [en_slu_show_secret]="update password of webpages to${2:+ [${CRED}${2}${CGRN}]}"
       ###
-      [cn, slu_show_lnkurl]="订阅链接即将更新${3:+为 [${CRED}${3}${CGRN}]}"
-      [en, slu_show_lnkurl]="update subscription url to${3:+ [${CRED}${3}${CGRN}]}"
+      [cn_slu_show_lnkurl]="订阅链接即将更新${3:+为 [${CRED}${3}${CGRN}]}"
+      [en_slu_show_lnkurl]="update subscription url to${3:+ [${CRED}${3}${CGRN}]}"
     )
   } 2>/dev/null
   ##////////////////////////////////////////////////////////////////////////////
@@ -104,11 +107,11 @@ mt_update_files() {
     set -- etc/c4l.yaml
     GPROMPTS+=(
       ###
-      [cn, ucfg_notneedupt]="配置文件 ${CGRN}${1}${CBLU} 无需更新"
-      [en, ucfg_notneedupt]="config ${CGRN}${1}${CBLU} already lastest, skip update"
+      [cn_ucfg_notneedupt]="配置文件 ${CGRN}${1}${CBLU} 无需更新"
+      [en_ucfg_notneedupt]="config ${CGRN}${1}${CBLU} already lastest, skip update"
       ###
-      [cn, ucfg_doneupdate]="从订阅链接更新配置文件 ${CPLP}${1}"
-      [en, ucfg_doneupdate]="update config ${CPLP}${1}${CYAN} from subscription link"
+      [cn_ucfg_doneupdate]="从订阅链接更新配置文件 ${CPLP}${1}"
+      [en_ucfg_doneupdate]="update config ${CPLP}${1}${CYAN} from subscription link"
     )
   } 2>/dev/null
   ####//////////////////////////////////////////////////////////////////////////
@@ -151,23 +154,23 @@ xf_check_sbsurl_reachable() {
   {
     GPROMPTS+=(
       ###
-      [cn, sblnk_selfname]="你的订阅链接"
-      [en, sblnk_selfname]="your subscription link"
+      [cn_sblnk_selfname]="你的订阅链接"
+      [en_sblnk_selfname]="your subscription link"
       ###
-      [cn, sblnk_givetome]="[FATAL]: 请给出一个有效的订阅链接!!!"
-      [en, sblnk_givetome]="[FATAL]: give me a valid subscription link!!!"
+      [cn_sblnk_givetome]="[FATAL]: 请给出一个有效的订阅链接!!!"
+      [en_sblnk_givetome]="[FATAL]: give me a valid subscription link!!!"
       ###
-      [cn, sblnk_got_okay]="获取到的订阅地址: ${CBLU}有效${CGRN}"
-      [en, sblnk_got_okay]="got a valid subscription link: ${CBLU}Okay${CGRN}"
+      [cn_sblnk_got_okay]="获取到的订阅地址: ${CBLU}有效${CGRN}"
+      [en_sblnk_got_okay]="got a valid subscription link: ${CBLU}Okay${CGRN}"
       ###
-      [cn, sblnk_reachble]="检查订阅链接是否可访问"
-      [en, sblnk_reachble]="check the reachable of subscription link"
+      [cn_sblnk_reachble]="检查订阅链接是否可访问"
+      [en_sblnk_reachble]="check the reachable of subscription link"
       ###
-      [cn, sblnk_canreach]="${PFX4SUB}订阅链接可访问."
-      [en, sblnk_canreach]="${PFX4SUB}subscription link can reach."
+      [cn_sblnk_canreach]="${PFX4SUB}订阅链接可访问."
+      [en_sblnk_canreach]="${PFX4SUB}subscription link can reach."
       ###
-      [cn, sblnk_notreach]="${PFX4SUB}不可访问订阅链接,退出启动!!!"
-      [en, sblnk_notreach]="${PFX4SUB}subscription link CANNOT reach, exit starting!!!"
+      [cn_sblnk_notreach]="${PFX4SUB}不可访问订阅链接,退出启动!!!"
+      [en_sblnk_notreach]="${PFX4SUB}subscription link CANNOT reach, exit starting!!!"
     )
   } 2>/dev/null
   ####//////////////////////////////////////////////////////////////////////////
@@ -198,20 +201,20 @@ xf_yamlfile_fetch_and_verify() {
   {
     GPROMPTS+=(
       ###
-      [cn, fhyml_start_dl]="从订阅链接下载配置文件"
-      [en, fhyml_start_dl]="begin to download config from subscription link"
+      [cn_fhyml_start_dl]="从订阅链接下载配置文件"
+      [en_fhyml_start_dl]="begin to download config from subscription link"
       ###
-      [cn, fhyml_dld_okay]="${PFX4SUB}配置文件下载成功,${CYAN}检查是否符合标准"
-      [en, fhyml_dld_okay]="${PFX4SUB}okay done download config, VERIFY it now"
+      [cn_fhyml_dld_okay]="${PFX4SUB}配置文件下载成功,${CYAN}检查是否符合标准"
+      [en_fhyml_dld_okay]="${PFX4SUB}okay done download config, VERIFY it now"
       ###
-      [cn, fhyml_dld_fail]="${PFX4SUB}配置文件下载失败,退出启动!!!"
-      [en, fhyml_dld_fail]="${PFX4SUB}failed to download config, exit starting!!!"
+      [cn_fhyml_dld_fail]="${PFX4SUB}配置文件下载失败,退出启动!!!"
+      [en_fhyml_dld_fail]="${PFX4SUB}failed to download config, exit starting!!!"
       ###
-      [cn, vfyml_meet_std]="${PFX4SUB}订阅内容符合clash标准"
-      [en, vfyml_meet_std]="${PFX4SUB}config is meet the Clash-Standard"
+      [cn_vfyml_meet_std]="${PFX4SUB}订阅内容符合clash标准"
+      [en_vfyml_meet_std]="${PFX4SUB}config is meet the Clash-Standard"
       ###
-      [cn, vfyml_nmet_std]="${PFX4SUB}订阅内容不符合clash标准,退出启动!!!"
-      [en, vfyml_nmet_std]="${PFX4SUB}config NOT meet the Clash-Standard, exit starting!!!"
+      [cn_vfyml_nmet_std]="${PFX4SUB}订阅内容不符合clash标准,退出启动!!!"
+      [en_vfyml_nmet_std]="${PFX4SUB}config NOT meet the Clash-Standard, exit starting!!!"
     )
   } 2>/dev/null
   ####//////////////////////////////////////////////////////////////////////////
@@ -256,7 +259,7 @@ xf_yamlfile_fetch_and_verify() {
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 xf_tiprint() {
   case ${CLR} in
-  [rR] | red) printf "${CRED}" ;;
+  [rR] | red) printf "${CRED}" && red_exit=1 ;;
   [bB] | blue) printf "${CBLU}" ;;
   [cC] | cyan) printf "${CYAN}" ;;
   [gG] | green) printf "${CGRN}" ;;
@@ -267,10 +270,19 @@ xf_tiprint() {
   if [[ "X${*//[a-z0-9_]/}" != "X" ]]; then
     printf "${*}${CEND}"
   else
-    eval "printf '${GPROMPTS[${SW_THZLANG:-cn}, $1]}${CEND}'"
+    local bk=$1
+    set -- "${GPROMPTS[${SW_THZLANG:-cn}_$bk]}"
+    if [ ${#1} -ge 1 ]; then
+      eval "printf '${1}${CEND}'"
+    else
+      eval "printf '${bk}${CEND}'"
+    fi
   fi
   ##
   [ X${SW_NEWLINE:-1} = X1 ] && echo
+  { [ X1 = X${red_exit} ] && exit 1; } 2>/dev/null
 }
-
+##TESTS##
+# CLR=red xf_tiprint "just_a_test_message_for_invalid_keyword1"
+# CLR=green xf_tiprint "just_a_test_message_for_invalid_keyword2"
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
