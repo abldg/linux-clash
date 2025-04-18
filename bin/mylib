@@ -237,23 +237,21 @@ xf_yamlfile_fetch_and_verify() {
 {
   ## [TIPBSE] ##
   xf_tiprint() {
+    local cc= bk="${*}" zl="${SW_THZLANG:-cn}"
     case ${CLR} in
-    [rR] | red) printf "${CRED}" && red_exit=1 ;;
-    [bB] | blue) printf "${CBLU}" ;;
-    [cC] | cyan) printf "${CYAN}" ;;
-    [gG] | green) printf "${CGRN}" ;;
-    [pP] | purple) printf "${CPLP}" ;;
-    [yY] | yellow) printf "${CYLW}" ;;
+    cred | CRED | [rR] | red) cc="${CRED}" && red_exit=1 ;;
+    cblu | CBLU | [bB] | blue) cc="${CBLU}" ;;
+    cyan | CYAN | [cC] | cyan) cc="${CYAN}" ;;
+    cgrn | CGRN | [gG] | green) cc="${CGRN}" ;;
+    cplp | CPLP | [pP] | purple) cc="${CPLP}" ;;
+    cylw | CYLW | [yY] | yellow) cc="${CYLW}" ;;
     esac
     ##
-    if [[ "X${*//[a-z0-9_]/}" = "X" ]]; then
-      local bk=$1
-      set -- "${GPROMPTS[${SW_THZLANG:-cn}_$bk]}"
-      [ ${#1} -ge 1 ] && printf "${1}" || printf "${bk}"
-    else
-      printf "${*}"
+    if [[ "X${bk//[a-z0-9_]/}" = "X" ]]; then
+      set -- "${GPROMPTS[${zl}_$bk]}"
+      [ ${#1} -ge 1 ] && bk="${*}"
     fi
-    printf "${CEND}"
+    printf -- "${cc}${bk}${CEND}"
     ##
     [ X${SW_NEWLINE:-1} = X1 ] && echo
     [ X1 = X${red_exit} ] && [[ X${0}Z != X*bashZ ]] && exit 1
