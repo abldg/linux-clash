@@ -233,43 +233,42 @@ xf_yamlfile_fetch_and_verify() {
   xf_yaml_verify $2
 }
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-xf_tiprint() {
-  case ${CLR} in
-  [rR] | red) printf "${CRED}" && red_exit=1 ;;
-  [bB] | blue) printf "${CBLU}" ;;
-  [cC] | cyan) printf "${CYAN}" ;;
-  [gG] | green) printf "${CGRN}" ;;
-  [pP] | purple) printf "${CPLP}" ;;
-  [yY] | yellow) printf "${CYLW}" ;;
-  esac
-  ##
-  if [[ "X${*//[a-z0-9_]/}" != "X" ]]; then
-    printf "${*}${CEND}"
-  else
-    local bk=$1
-    set -- "${GPROMPTS[${SW_THZLANG:-cn}_$bk]}"
-    if [ ${#1} -ge 1 ]; then
-      eval "printf '${1}${CEND}'"
-    else
-      eval "printf '${bk}${CEND}'"
-    fi
-  fi
-  ##
-  [ X${SW_NEWLINE:-1} = X1 ] && echo
-  { [ X1 = X${red_exit} ] && exit 1; } 2>/dev/null
-}
-
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## //////////////////////////////// [COLORS] //////////////////////////////// ##
 {
-  colors=(RED:"31;1" GRN:32 YLW:33 BLU:34 PLP:35 YAN:36 END:0)
-  for x in ${colors[@]}; do
+  ## [TIPBSE] ##
+  xf_tiprint() {
+    case ${CLR} in
+    [rR] | red) printf "${CRED}" && red_exit=1 ;;
+    [bB] | blue) printf "${CBLU}" ;;
+    [cC] | cyan) printf "${CYAN}" ;;
+    [gG] | green) printf "${CGRN}" ;;
+    [pP] | purple) printf "${CPLP}" ;;
+    [yY] | yellow) printf "${CYLW}" ;;
+    esac
+    ##
+    if [[ "X${*//[a-z0-9_]/}" != "X" ]]; then
+      printf "${*}${CEND}"
+    else
+      local bk=$1
+      set -- "${GPROMPTS[${SW_THZLANG:-cn}_$bk]}"
+      if [ ${#1} -ge 1 ]; then
+        eval "printf '${1}${CEND}'"
+      else
+        eval "printf '${bk}${CEND}'"
+      fi
+    fi
+    ##
+    [ X${SW_NEWLINE:-1} = X1 ] && echo
+    { [ X1 = X${red_exit} ] && exit 1; } 2>/dev/null
+  }
+  ## [COLORS] ##
+  mcary=(RED:"31;1" GRN:32 YLW:33 BLU:34 PLP:35 YAN:36 END:0)
+  for x in ${mcary[@]}; do
     p=(${x//:/ }) && eval "export C${p[0]}='\e[${p[1]}m'"
   done
   for x in red blue cyan green purple yellow; do
     eval "_${x}(){ { CLR=${x} xf_tiprint \$@; } 2>/dev/null; }"
   done
-  unset -v x p colors
+  unset -v x p mcary
   ##
   export PFX4SUB='@----> '
   declare -gA GPROMPTS=()
