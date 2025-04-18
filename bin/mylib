@@ -232,7 +232,8 @@ xf_yamlfile_fetch_and_verify() {
   _green fhyml_dld_okay
   xf_yaml_verify $2
 }
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {
   ## [TIPBSE] ##
   xf_tiprint() {
@@ -245,20 +246,17 @@ xf_yamlfile_fetch_and_verify() {
     [yY] | yellow) printf "${CYLW}" ;;
     esac
     ##
-    if [[ "X${*//[a-z0-9_]/}" != "X" ]]; then
-      printf "${*}${CEND}"
-    else
+    if [[ "X${*//[a-z0-9_]/}" = "X" ]]; then
       local bk=$1
       set -- "${GPROMPTS[${SW_THZLANG:-cn}_$bk]}"
-      if [ ${#1} -ge 1 ]; then
-        eval "printf '${1}${CEND}'"
-      else
-        eval "printf '${bk}${CEND}'"
-      fi
+      [ ${#1} -ge 1 ] && printf "${1}" || printf "${bk}"
+    else
+      printf "${*}"
     fi
+    printf "${CEND}"
     ##
     [ X${SW_NEWLINE:-1} = X1 ] && echo
-    { [ X1 = X${red_exit} ] && exit 1; } 2>/dev/null
+    [ X1 = X${red_exit} ] && [[ X${0}Z != X*bashZ ]] && exit 1
   }
   ## [COLORS] ##
   mcary=(RED:"31;1" GRN:32 YLW:33 BLU:34 PLP:35 YAN:36 END:0)
@@ -267,6 +265,7 @@ xf_yamlfile_fetch_and_verify() {
   done
   for x in red blue cyan green purple yellow; do
     eval "_${x}(){ { CLR=${x} xf_tiprint \$@; } 2>/dev/null; }"
+    # eval "_${x}(){ CLR=${x} xf_tiprint \$@; }"
   done
   unset -v x p mcary
   ##
@@ -274,8 +273,8 @@ xf_yamlfile_fetch_and_verify() {
   declare -gA GPROMPTS=()
 } 2>/dev/null
 ##TESTS##
-# _blue "just_a_test_message_for_invalid_keyword2"
 # _green "just_a_test_message_for_invalid_keyword2"
 # _red "just_a_test_message_for_invalid_keyword1"
+# _blue "just_a_test_message_for_invalid_keyword2"
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
