@@ -6,30 +6,6 @@
 ## LSCT: 2025-04-14 15:50:29
 ## VERS: 0.3
 ##==================================----------==================================
-
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## //////////////////////////////// [COLORS] //////////////////////////////// ##
-{
-  export CRED='\e[31;1m'
-  export CGRN='\e[32;1m'
-  export CYLW='\e[33;1m'
-  export CBLU='\e[34;1m'
-  export CPLP='\e[35;1m'
-  export CYAN='\e[36;1m'
-  export CEND='\e[0m'
-  export PFX4SUB='@----> '
-  for x in red blue cyan green purple yellow; do
-    eval "_${x}(){ { CLR=${x} xf_tiprint \${@}; } 2>/dev/null; }"
-  done && unset -v x
-  # _red() { { CLR=red xf_tiprint; } 2>/dev/null; }
-  # _blue() { { CLR=blue xf_tiprint $@; } 2>/dev/null; }
-  # _cyan() { { CLR=cyan xf_tiprint $@; } 2>/dev/null; }
-  # _green() { { CLR=green xf_tiprint $@; } 2>/dev/null; }
-  # _purple() { { CLR=purple xf_tiprint $@; } 2>/dev/null; }
-  # _yellow() { { CLR=yellow xf_tiprint $@; } 2>/dev/null; }
-  ##
-  declare -gA GPROMPTS=()
-} 2>/dev/null
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 mt_thzstep() {
   [ X0 = X${SW_DBGTHIZ:-0} ] && return
@@ -282,7 +258,25 @@ xf_tiprint() {
   [ X${SW_NEWLINE:-1} = X1 ] && echo
   { [ X1 = X${red_exit} ] && exit 1; } 2>/dev/null
 }
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## //////////////////////////////// [COLORS] //////////////////////////////// ##
+{
+  colors=(RED:"31;1" GRN:32 YLW:33 BLU:34 PLP:35 YAN:36 END:0)
+  for x in ${colors[@]}; do
+    p=(${x//:/ }) && eval "export C${p[0]}='\e[${p[1]}m'"
+  done
+  for x in red blue cyan green purple yellow; do
+    eval "_${x}(){ { CLR=${x} xf_tiprint \$@; } 2>/dev/null; }"
+  done
+  unset -v x p colors
+  ##
+  export PFX4SUB='@----> '
+  declare -gA GPROMPTS=()
+} 2>/dev/null
 ##TESTS##
-# CLR=red xf_tiprint "just_a_test_message_for_invalid_keyword1"
-# CLR=green xf_tiprint "just_a_test_message_for_invalid_keyword2"
+# _blue "just_a_test_message_for_invalid_keyword2"
+# _green "just_a_test_message_for_invalid_keyword2"
+# _red "just_a_test_message_for_invalid_keyword1"
+
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
