@@ -236,7 +236,7 @@ xf_yamlfile_fetch_and_verify() {
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {
   ## [TIPBSE] ##
-  xf_tiprint() {
+  mt_getprompt() {
     local cc= bk="${*}" zl="${SW_THZLANG:-cn}"
     case ${CLR} in
     cred | CRED | [rR] | red) cc="${CRED}" && red_exit=1 ;;
@@ -248,6 +248,7 @@ xf_yamlfile_fetch_and_verify() {
     esac
     ##
     if [[ "X${bk//[a-z0-9_]/}" = "X" ]]; then
+      [[ ${bk}X == @(cn|en|jp|fr|ru|de)_*X ]] && bk="${bk#*_}"
       set -- "${GPROMPTS[${zl}_$bk]}"
       [ ${#1} -ge 1 ] && bk="${*}"
     fi
@@ -262,8 +263,8 @@ xf_yamlfile_fetch_and_verify() {
     p=(${x//:/ }) && eval "export C${p[0]}='\e[${p[1]}m'"
   done
   for x in red blue cyan green purple yellow; do
-    eval "_${x}(){ { CLR=${x} xf_tiprint \$@; } 2>/dev/null; }"
-    # eval "_${x}(){ CLR=${x} xf_tiprint \$@; }"
+    eval "_${x}(){ { CLR=${x} mt_getprompt \$@; } 2>/dev/null; }"
+    # eval "_${x}(){ CLR=${x} mt_getprompt \$@; }"
   done
   unset -v x p mcary
   ##
