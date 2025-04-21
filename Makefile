@@ -20,7 +20,7 @@ endif
 V2S+=SW_CALBYMK=1
 V2S+=SW_DBGTHIZ=$(VD)
 V2S+=SW_THZLANG=$(VE)
-V2S+=SW_USEMIRR=$(if $(vm),1,0)
+V2S+=SW_USEMIRR=$(if $(m),1,0)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 OPERLST+=proxy/enable

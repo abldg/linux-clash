@@ -7,7 +7,7 @@
 # 项目介绍
 
 <div align="left">
-  <!-- <a href="https://clash-for-linux-server.github.io">Website</a> • -->
+  <!-- <a href="https://linux-clash.github.io">Website</a> • -->
   <a href="./README.md">English • </a>
   <a href="#"> 若喜欢本项目,请点个小星星! </a>
 </div>
@@ -66,11 +66,11 @@ yum update -y && yum install -y git curl make
 代码下载从 github 和 gitee 两个的仓库地址当中自行选择一个下载即可
 ```bash
 ## github
-#C4L_REPO_URL=https://github.com/abldg/clash-for-linux-server.git
+#C4L_REPO_URL=https://github.com/abldg/linux-clash.git
 ## gitee
-C4L_REPO_URL=https://gitee.com/abldg/clash-for-linux-server.git
+C4L_REPO_URL=https://gitee.com/abldg/linux-clash.git
 
-git clone ${C4L_REPO_URL} /opt/clash4linux
+git clone ${C4L_REPO_URL} linux-clash
 ```
 
 ## 更新订阅链接及页面访问密码
@@ -79,7 +79,7 @@ git clone ${C4L_REPO_URL} /opt/clash4linux
 
 ```bash
 ##进入到项目目录
-cd /opt/clash4linux
+cd linux-clash
 
 ##更新订阅链接<必选>
 ##页面访问密码[可选]
@@ -90,7 +90,7 @@ make uptenv < LNKURL=订阅链接 > [SECRET=页面访问密码]
 >默认` 后台运行 `
 - 进入项目目录
 ```bash
-$cd /opt/clash4linux && make proxy_enable
+$cd linux-clash && make proxy_enable
 ```
 
 - 输出如下
@@ -124,7 +124,7 @@ https_proxy=http://127.0.0.1:7890
 - 加载工具函数 `proxy_enable` 和 `proxy_disable`
 
 ```bash
-$ source /etc/profile.d/z99_clash4linux.sh
+$ source /etc/profile.d/z99_linux_clash.sh
 
 ##使能作用于当前shell的环境变量
 $ proxy_enable
@@ -136,7 +136,7 @@ $ proxy_enable
 
 ```bash
 ##停止服务
-cd /opt/clash4linux && make proxy_disable
+cd linux-clash && make proxy_disable
 ```
 
 服务关闭成功,请执行以下命令关闭系统代理：proxy_disable

@@ -67,17 +67,18 @@ dfn_help() {
 dfn_infoproj() {
   # mt_thzstep
   {
-    set -- "${CYLW}" '==============='
-    local rpurl=github rpnme=abldg/clash-for-linux-server.git
+    set -- "${CEND}\e[33;1m" '==============='
+    local rpurl=github rpnme=abldg/linux-clash.git
     [ X1 = X${SW_USEMIRR:-0} ] && rpurl=gitee
-    local srcname=/etc/profile.d/z99_clash4linux.sh
-    local infoary="#${2}${2}${2}${2}${2}\n"
-    infoary+="# This a totally FREE project, !!! DO NOT PAY TO ANYBODY !!!\n"
-    infoary+="# repo-url: ${CGRN}https://${rpurl}.com/${rpnme}${1}\n"
+    local srcname=/etc/profile.d/z99_linux_clash.sh
+    local infoary="# ${CBLU}${2}${2}${2}${2}${2}${1}\n"
+    infoary+="# This a totally FREE project, "
+    infoary+="!!! ${CRED} DO NOT PAY TO ANYBODY ${1}!!!\n"
+    infoary+="# repo-url: \e[41;34mhttps://${rpurl}.com/${rpnme}${1}\n"
     infoary+="# load the system-wide envs: ${CYAN}source ${srcname}${1}\n"
-    infoary+="# turn on the system-proxy : ${CBLU}proxy_enable${1}\n"
-    infoary+="# turn off the system-proxy: ${CBLU}proxy_disable${1}\n"
-    infoary+="#${2}${2}${2}${2}${2}\n"
+    infoary+="# turn on the system-proxy : ${CGRN}proxy_enable${1}\n"
+    infoary+="# turn off the system-proxy: ${CRED}proxy_disable${1}\n"
+    infoary+="# ${CBLU}${2}${2}${2}${2}${2}${1}\n"
     printf "${1}${infoary}${CEND}"
   } 2>/dev/null
 }

@@ -101,10 +101,9 @@ mt_update_files() {
     xf_yamlfile_fetch_and_verify ${1}
   fi
   ###
-  set -- /etc/profile.d/z99_clash4linux.sh
+  set -- /etc/profile.d/z99_linux_clash.sh
   if [ ! -e $1 ]; then
     {
-      echo '# 开启系统代理'
       echo 'proxy_enable() {'
       echo '  export http_proxy=http://127.0.0.1:7890'
       echo '  export https_proxy=http://127.0.0.1:7890'
@@ -112,14 +111,13 @@ mt_update_files() {
       echo '  export HTTP_PROXY=http://127.0.0.1:7890'
       echo '  export HTTPS_PROXY=http://127.0.0.1:7890'
       echo '  export NO_PROXY=127.0.0.1,localhost'
-      echo '  printf "\033[32m[√] 已开启代理\033[0m\n"'
+      echo '  printf "\033[32m[√] proxy turn on\033[0m\n"'
       echo '}'
       echo '##'
-      echo '# 关闭系统代理'
       echo 'proxy_disable() {'
       echo '  unset -v http_proxy https_proxy no_proxy'
       echo '  unset -v HTTP_PROXY HTTPS_PROXY NO_PROXY'
-      echo '  printf "\033[31m[×] 已关闭代理\033[0m\n"'
+      echo '  printf "\033[31m[×] proxy turn off\033[0m\n"'
       echo '}'
     } | sudo tee $1
   fi 2>/dev/null

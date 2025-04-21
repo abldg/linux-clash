@@ -7,7 +7,7 @@
 # Project Introduction
 
 <div align="left">
-  <!-- <a href="https://clash-for-linux-server.github.io">Website</a> • -->
+  <!-- <a href="https://linux-clash.github.io">Website</a> • -->
   <a href="./README_zh.md">简体中文</a>
   <a href="#"> If you enjoy this project, please give it a star! </a>
 </div>
@@ -71,14 +71,14 @@ yum update -y && yum install -y git curl make
 > Clone the project repository
 
 ```bash
-git clone https://github.com/abldg/clash-for-linux-server.git /opt/clash4linux
+git clone https://github.com/abldg/linux-clash.git linux-clash
 ```
 
 ## Upate the subscription URLs
 
 ```bash
 ##step into the repository dir
-cd /opt/clash4linux
+cd linux-clash
 
 ##update subscription URLs <must>
 ##webpage-password[optional]
@@ -92,7 +92,7 @@ make uptenv < LNKURL=URLs > [SECRET=UI_PASWD]
 - Navigate to the project directory:
 
 ```bash
-$ cd /opt/clash4linux && make proxy_enable
+$ cd linux-clash && make proxy_enable
 ```
 
 - The Startup Output likes:
@@ -122,7 +122,7 @@ If the above steps are successful, the Clash program is running, and you can now
 - load `proxy_enable` and `proxy_disable`
 
 ```bash
-$ source /etc/profile.d/z99_clash4linux.sh
+$ source /etc/profile.d/z99_linux_clash.sh
 $ proxy_enable
 ```
 
@@ -133,7 +133,7 @@ $ proxy_enable
 - Navigate to the project directory:
 
 ```bash
-cd /opt/clash4linux && make proxy_disable
+cd linux-clash && make proxy_disable
 ```
 
 Stop the system proxy:
